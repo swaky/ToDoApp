@@ -8,7 +8,7 @@
 <android.support.design.widget.TabLayout
     android:id="@+id/tabs"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="45dp"
     android:background="#aaaaaa"
     app:tabGravity="fill"
     app:tabMode="fixed"
@@ -17,6 +17,7 @@
     android:id="@+id/viewpager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="45dp"
     />
 
 </RelativeLayout>
