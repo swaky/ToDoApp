@@ -31,7 +31,7 @@ public class NotesFragment extends Fragment{
     private EditText editText_Title;
     private EditText editText_Desc;
     private ImageButton btn_Add;
-
+    private DBAdapter dbAdapter;
 
     RecyclerView recyclerView;
     ArrayList<Note> notes;
@@ -40,6 +40,7 @@ public class NotesFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
 
         ImageButton footer_addbutton=(ImageButton)getActivity().findViewById(R.id.btn_add);
         notes=new ArrayList<>();

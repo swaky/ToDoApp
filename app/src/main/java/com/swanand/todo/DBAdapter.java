@@ -60,4 +60,8 @@ public class DBAdapter {
 
         return sqLiteDatabase.query(Constants.NOTES_TB_NAME,columns,null,null,null,null,null);
     }
+    public void Clean()
+    {
+            sqLiteDatabase.execSQL("DELETE from "+Constants.NOTES_TB_NAME);
+    }
 }

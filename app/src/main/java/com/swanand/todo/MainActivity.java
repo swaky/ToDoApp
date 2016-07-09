@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
 
-
         button_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,47 +64,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-  /*  public void showDialog()
-    {
-        final Dialog dialog=new Dialog(this);
-
-        //no title bar for dialog box
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.custom_layout);
-        editText_Title = (EditText) dialog.findViewById(R.id.editText_Title);
-        editText_Desc= (EditText) dialog.findViewById(R.id.editText_Description);
-        btn_Add= (ImageButton) dialog.findViewById(R.id.button_Done);
-        btn_Add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            save(editText_Title.getText().toString(),editText_Desc.getText().toString());
-         dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-*/
-    private void save(String title,String desc)
-    {
-        DBAdapter dbAdapter=new DBAdapter(this);
-        //open database
-        dbAdapter.openDB();
-        long result=dbAdapter.addNote(title,desc);
-        if(result>0)
-        {   editText_Title.setText("");
-            editText_Desc.setText("");
-        }
-        else
-        {
-            Toast.makeText(this,"Insert failed",Toast.LENGTH_SHORT).show();
-        }
-
-        dbAdapter.closeDB();
-
-
-    }
-
-
 
     private void setUpViewPager(ViewPager viewPager) {
         //write adapter for viewpager
@@ -115,6 +73,5 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
     }
-
 
 }
