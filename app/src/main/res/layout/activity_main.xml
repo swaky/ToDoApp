@@ -18,6 +18,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="45dp"
+    android:layout_above="@+id/footer"
     />
-
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/btn_add"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:elevation="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_note_add_white_24dp"
+            />
+    </LinearLayout>
 </RelativeLayout>

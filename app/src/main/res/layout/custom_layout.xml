@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardElevation="15dp"
+    android:layout_height="400dp"
+    >
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_Title"
+            android:layout_weight="0.06"
+            android:hint="enter title here" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/editText_Description"
+            android:layout_weight="0.90"
+            android:hint="enter descriptino here" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_Done"
+            android:src="@drawable/ic_note_add_white_24dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.06" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>
