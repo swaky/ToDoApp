@@ -22,7 +22,6 @@ import com.swanand.todo.view.NotesRecyclerViewAdapter;
 import com.swanand.todo.R;
 
 import java.util.ArrayList;
-
 /**
  * Created by swanand on 7/4/2016.
  */
@@ -126,7 +125,7 @@ public class NotesFragment extends Fragment{
         dbAdapter.closeDB();
     //refresh
         retrive();
-
+        adapter.notifyDataSetChanged();
     }
 
     public void showDialog()
