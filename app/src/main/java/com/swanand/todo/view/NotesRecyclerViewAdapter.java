@@ -1,22 +1,25 @@
 package com.swanand.todo.view;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.swanand.todo.DBAdapter;
-import com.swanand.todo.MainActivity;
 import com.swanand.todo.R;
-import com.swanand.todo.fragments.NotesFragment;
-import com.swanand.todo.fragments.TodoFragment;
 import com.swanand.todo.model.Note;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by swanand on 7/9/2016.
@@ -24,12 +27,12 @@ import java.util.ArrayList;
 public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     Context context;
     ArrayList<Note> notes;
-
+    EditText detailView_title,detailView_desc;
+    ImageButton detailView_Save,detailView_Cancel;
     public NotesRecyclerViewAdapter(Context context, ArrayList<Note> notes) {
         this.context = context;
         this.notes = notes;
     }
-
     //initialize the view holder
 
     @Override
@@ -52,10 +55,10 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHold
                 Toast.makeText(context,notes.get(position).getTitle(),Toast.LENGTH_LONG).show();
             }
         });
+
         holder.deleteNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  Toast.makeText(context,"Delete Note",Toast.LENGTH_LONG).show();
                 new AlertDialog.Builder(context)
                         .setTitle("Confirm Delete ?")
                         .setMessage("Do you really want to whatever?")
@@ -63,7 +66,7 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHold
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                Toast.makeText(context, "Yes selected", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                                 DBAdapter dbAdapter=new DBAdapter(context);
                                 dbAdapter.openDB();
                                 dbAdapter.deleteNote(notes.get(position).getId());
@@ -78,7 +81,48 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHold
         holder.editNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Edit Note",Toast.LENGTH_SHORT);
+                Toast.makeText(context,"Edit Note",Toast.LENGTH_SHORT).show();
+                final Dialog detailDialog=new Dialog(context);
+                detailDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                detailDialog.setContentView(R.layout.note_detail_view);
+                detailView_title= (EditText) detailDialog.findViewById(R.id.noteDetailView_editText_Title);
+                detailView_desc= (EditText) detailDialog.findViewById(R.id.noteDetailView_editText_Description);
+                detailView_Save= (ImageButton) detailDialog.findViewById(R.id.noteDetailView_button_Update);
+                detailView_Cancel=(ImageButton)detailDialog.findViewById(R.id.noteDetailView_button_Cancel);
+                detailView_title.setText(notes.get(position).getTitle());
+                detailView_desc.setText(notes.get(position).getDescription());
+
+                //Updating the data into database
+                detailView_Save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DBAdapter dbAdapter=new DBAdapter(context);
+                        dbAdapter.openDB();
+                        dbAdapter.updateNote(notes.get(position).getId(),detailView_title.getText().toString(),detailView_desc.getText().toString());
+                        notes.clear();
+                        Cursor cursor=dbAdapter.getAllNotes();
+                        //loop and add to arraylist
+                        while(cursor.moveToNext())
+                        {
+                            int id=cursor.getInt(0);
+                            String title=cursor.getString(1);
+                            String description=cursor.getString(2);
+                            Note note=new Note(id,title,description);
+                            notes.add(note);
+                        }
+                        updateData(notes);
+                        dbAdapter.closeDB();
+                        detailDialog.dismiss();
+                    }
+                });
+                //to dismiss the dialog box
+                detailView_Cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        detailDialog.dismiss();
+                    }
+                });
+                detailDialog.show();
             }
         });
     }
@@ -86,5 +130,11 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHold
     @Override
     public int getItemCount() {
         return notes.size();
+    }
+
+    public void updateData(ArrayList<Note> notes)
+    {
+        this.notes=notes;
+        notifyDataSetChanged();
     }
 }

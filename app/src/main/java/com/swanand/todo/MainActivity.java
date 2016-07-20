@@ -1,10 +1,12 @@
 package com.swanand.todo;
 
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,10 +23,6 @@ import com.swanand.todo.model.Note;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText editText_Title;
-    private EditText editText_Desc;
-    private ImageButton btn_Add;
-
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -38,9 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager =(ViewPager) findViewById(R.id.viewpager);
         button_add= (ImageButton) findViewById(R.id.btn_add);
-
         setUpViewPager(viewPager);
-
         tabLayout=(TabLayout)findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
@@ -58,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 if(tab_position==1)   //if notes tab is selected
                 {
                  //   Toast.makeText(MainActivity.this,"Notes selected",Toast.LENGTH_LONG).show();
-//                showDialog();
+
                 }
 
             }
@@ -68,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpViewPager(ViewPager viewPager) {
         //write adapter for viewpager
         ViewPagerAdapter adapter =new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(TodoFragment.newInstance("ToDo"),"Todo");
+        adapter.addFragment(new TodoFragment(),"Todo");
         adapter.addFragment(new NotesFragment(),"Notes");
         viewPager.setAdapter(adapter);
 

@@ -53,6 +53,22 @@ public class DBAdapter {
         }
         return 0;
     }
+    public long updateNote(int id,String title,String description)
+    {
+        try{
+                ContentValues contentValues=new ContentValues();
+            contentValues.put(Constants.TITLE,title);
+            contentValues.put(Constants.DESCRIPTION,description);
+            return sqLiteDatabase.update(Constants.NOTES_TB_NAME,contentValues,Constants.ROW_ID+" =?",new String[]{String.valueOf(id)});
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
     //read data
     public Cursor getAllNotes()
     {
@@ -64,6 +80,7 @@ public class DBAdapter {
     {
         sqLiteDatabase.execSQL("DELETE FROM "+Constants.NOTES_TB_NAME+" WHERE "+Constants.ROW_ID+"="+noteid+";");
     }
+
     public void Clean()
     {
             sqLiteDatabase.execSQL("DELETE from "+Constants.NOTES_TB_NAME);

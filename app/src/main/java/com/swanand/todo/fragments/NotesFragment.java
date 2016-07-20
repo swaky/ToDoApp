@@ -47,6 +47,7 @@ public class NotesFragment extends Fragment{
         footer_addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 showDialog();
             }
         });
@@ -62,7 +63,6 @@ public class NotesFragment extends Fragment{
         //   recyclerView.setAdapter(new NotesRecyclerViewAdapter(this.getActivity(),retrive()));
         return v;
     }
-
     /*
     private ArrayList<Note> getDataList() {
     ArrayList<Note> notes=new ArrayList<>();
@@ -105,8 +105,6 @@ public class NotesFragment extends Fragment{
 
     }
 
-
-
     private void save(String title,String desc)
     {
         DBAdapter dbAdapter=new DBAdapter(getActivity());
@@ -125,7 +123,8 @@ public class NotesFragment extends Fragment{
         dbAdapter.closeDB();
     //refresh
         retrive();
-        adapter.notifyDataSetChanged();
+       // adapter.notifyDataSetChanged();
+
     }
 
     public void showDialog()
@@ -134,18 +133,23 @@ public class NotesFragment extends Fragment{
 
         //no title bar for dialog box
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.custom_layout);
+        dialog.setContentView(R.layout.insertnote_custom_layout);
         editText_Title = (EditText) dialog.findViewById(R.id.editText_Title);
         editText_Desc= (EditText) dialog.findViewById(R.id.editText_Description);
         btn_Add= (ImageButton) dialog.findViewById(R.id.button_Done);
         btn_Add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save(editText_Title.getText().toString(),editText_Desc.getText().toString());
-                dialog.dismiss();
+                if(editText_Title.getText().toString().isEmpty()) {
+                    dialog.dismiss();
+                    Toast.makeText(getActivity(), "couldn't save", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    save(editText_Title.getText().toString(), editText_Desc.getText().toString());
+                    dialog.dismiss();
+                }
             }
         });
         dialog.show();
     }
-
 }
