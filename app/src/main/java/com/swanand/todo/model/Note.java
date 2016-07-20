@@ -15,11 +15,21 @@ public class Note {
     private int id;
     private String title;
     private String description;
+    private String datetime;
 
-    public Note(int id, String title, String description) {
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
+    public Note(int id, String title, String description,String datetime) {
         this.id=id;
         this.title = title;
         this.description = description;
+        this.datetime=datetime;
     }
 
     public String getTitle() {

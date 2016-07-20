@@ -14,19 +14,19 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
         try{
             sqLiteDatabase.execSQL(Constants.CREATE_NOTES_TB);
+            sqLiteDatabase.execSQL(Constants.CREATE_TODO_TB);
         }
         catch (Exception ex)
         {
-
+            ex.printStackTrace();
         }
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+Constants.NOTES_TB_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+Constants.Todo_TB_NAME);
         onCreate(sqLiteDatabase);
     }
 }

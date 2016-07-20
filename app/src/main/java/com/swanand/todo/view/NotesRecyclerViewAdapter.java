@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -34,20 +36,19 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHold
         this.notes = notes;
     }
     //initialize the view holder
-
     @Override
     public NotesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_row,null);
         NotesViewHolder holder=new NotesViewHolder(v);
         return holder;
     }
-
     //bind data to view
 
     @Override
-    public void onBindViewHolder(NotesViewHolder holder, final int position) {
+    public void onBindViewHolder(final NotesViewHolder holder, final int position) {
         holder.title.setText(notes.get(position).getTitle());
         holder.description.setText(notes.get(position).getDescription());
+        holder.datetime.setText(notes.get(position).getDatetime());
         //listener
         holder.setItemClickListener(new ItemClickListener() {
             @Override
@@ -107,10 +108,12 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHold
                             int id=cursor.getInt(0);
                             String title=cursor.getString(1);
                             String description=cursor.getString(2);
-                            Note note=new Note(id,title,description);
+                            String datetime=cursor.getString(3);
+                            Note note=new Note(id,title,description,datetime);
                             notes.add(note);
                         }
                         updateData(notes);
+                       // setAnimation(holder.itemView,position);
                         dbAdapter.closeDB();
                         detailDialog.dismiss();
                     }
@@ -126,7 +129,18 @@ public class NotesRecyclerViewAdapter extends RecyclerView.Adapter<NotesViewHold
             }
         });
     }
-
+    //slide in animation effect
+    private int lastPosition=-1;
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
     @Override
     public int getItemCount() {
         return notes.size();

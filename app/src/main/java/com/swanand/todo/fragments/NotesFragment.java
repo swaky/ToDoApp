@@ -92,8 +92,8 @@ public class NotesFragment extends Fragment{
             int id=cursor.getInt(0);
             String title=cursor.getString(1);
             String description=cursor.getString(2);
-
-            Note note=new Note(id,title,description);
+            String datetime=cursor.getString(3);
+            Note note=new Note(id,title,description,datetime);
 
             notes.add(note);
         }
